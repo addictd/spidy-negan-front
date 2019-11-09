@@ -7,6 +7,8 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import './App.css';
 import rootReducer from './root-reducer';
+import Routes from './components/routes';
+import Navbar from './components/common/navbar/navbar';
 
 export const history = createBrowserHistory();
 
@@ -34,7 +36,11 @@ class App extends Component {
 
           <div className="App">
             <div>
-              hello thtis is crawler
+              
+              <Navbar >
+                <Routes store={newStore}/>
+              </Navbar>
+
             </div>
           </div>
 
