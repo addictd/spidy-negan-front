@@ -10,6 +10,8 @@ export const signin = ({email, password}) => {
             const response = await signIn({email, password});
             const {data, msg, status} = response['data'];
             console.log('[signIn] response: ', data);
+            if(!status) throw msg;
+
             NotifyMe('success', msg);
             ls_set([config.TOKEN], data.token);
             dispatch(replace("/home"));
@@ -25,6 +27,8 @@ export const signup = ({email, password, name}) => {
         try{
             const response = await signUp({email, password, name});
             const {data, msg, status} = response['data'];
+
+            if(!status) throw msg;
             console.log('[signIn] response: ', data);
             NotifyMe('success', msg);
 
@@ -53,6 +57,8 @@ export const allUsers = () => {
             const response = await getAllUsers();
             const {data, msg, status} = response['data'];
             console.log('[signIn] response: ', data);
+
+            if(!status) throw msg;
             NotifyMe('success', msg);
 
         }catch(err){
