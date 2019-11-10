@@ -9,6 +9,7 @@ import './App.css';
 import rootReducer from './root-reducer';
 import Routes from './components/routes';
 import Navbar from './components/common/navbar/navbar';
+import './socketHandler';  //for handling socket connections
 
 export const history = createBrowserHistory();
 
@@ -27,6 +28,10 @@ const configureStore = () => {
 
 class App extends Component {
 
+  componentDidMount() {
+
+  }
+
   render() {
     const newStore = configureStore();
     return (
@@ -36,9 +41,9 @@ class App extends Component {
 
           <div className="App">
             <div>
-              
+
               <Navbar >
-                <Routes store={newStore}/>
+                <Routes store={newStore} />
               </Navbar>
 
             </div>

@@ -3,6 +3,7 @@ import { NotifyMe } from "../common/notifyMe";
 import { ls_set, ls_clear } from "../services/ls-service";
 import config from '../../../config';
 import {replace, push } from "connected-react-router";
+import * as socketServices from '../services/socketServices';
 
 export const signin = ({email, password}) => {
     return async dispatch => {
@@ -69,3 +70,9 @@ export const allUsers = () => {
     }
 }
 
+export const emitEvent1 = () => {
+    return dispatch => {
+        console.log('emitted');
+        socketServices.sendevent1({msg : "event1"});
+    }
+}
