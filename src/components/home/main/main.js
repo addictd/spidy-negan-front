@@ -16,7 +16,7 @@ class Main extends Component {
         this.props.actions.onSearchTag({ tag: input_tag });
     }
     onTagClick = e => {
-        this.props.actions.getArticlesList({ tag : e.currentTarget.getAttribute('data-primary-tag')})
+        this.props.actions.getArticlesList({ tag: e.currentTarget.getAttribute('data-primary-tag') })
     }
     render() {
         const { input_tag, articles, available_tags } = this.props.articles;
@@ -55,14 +55,14 @@ class Main extends Component {
                         <span>Available Tags: &nbsp; &nbsp;</span>
 
                         {
-                            available_tags.map((item,i) => {
-                                return <button 
-                                    type="button" 
-                                    className="btn btn-light" 
+                            available_tags.map((item, i) => {
+                                return <button
+                                    type="button"
+                                    className="btn btn-light"
                                     key={item.tag + i}
-                                    data-primary-tag ={item.tag}
+                                    data-primary-tag={item.tag}
                                     onClick={this.onTagClick}
-                                    >
+                                >
                                     <i className="fa fa-search" aria-hidden="true" /> &nbsp; {item.tag}
                                 </button>
                             })
@@ -75,24 +75,32 @@ class Main extends Component {
                     <div className="post-body">
                         {
                             articles.map((item, i) => {
+                                if (item.error) return <div className="card" key={item.toString() + i} >
+                                    <div className="card-body">
+                                        <p>Unable to load content</p>
+                                    </div>
+                                </div>
                                 return <div className="card" key={item.toString() + i} >
                                     <div className="card-body">
-                                        <h5 className="card-title">{i+1}.&nbsp;{item.headline}</h5>
-                                        
-                                        <p>{item.author.name}</p>
-                                            <p>{item.dataPublished}</p>
-                                            {/* <p>{item.read_time}</p>
+                                        <h5 className="card-title">{i + 1}.&nbsp;{item.headline}</h5>
 
-                                            <p>{item.url}</p>
-                                            <p>{item.fetch_time}</p> */}
+                                        <p>author: {item.author.name}</p>
+                                        <p>datePublished: {(new Date(Date.parse(item.datePublished))).toLocaleDateString()}</p>
+                                        {/* <p>{item.read_time}</p>
+
+                                            <p>{item.url}</p> */}
+                                        <p>fetch_time: {item.fetch_time / (1000)} &nbsp; seconds</p>
                                         <p className="card-text">{item.description}</p>
-                                        {
-                                            item.keywords.filter(item => {
-                                                if(item.split(":")[0] === 'Tag')return true;
-                                                return false;
-                                            })
-                                            .map(tag => <span key={tag+i}>{tag.split(':')[1]}&nbsp;</span>)
-                                        }
+                                        <p>Tags : &nbsp;
+{
+                                                item.keywords.filter(item => {
+                                                    if (item.split(":")[0] === 'Tag') return true;
+                                                    return false;
+                                                })
+                                                    .map(tag => <span key={tag + i}>{tag.split(':')[1]}&nbsp;</span>)
+                                            }
+                                        </p>
+
                                         {/* <a href="#" className="btn btn-primary">Button</a> */}
                                     </div>
                                 </div>
