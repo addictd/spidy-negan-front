@@ -1,41 +1,20 @@
-import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
-import { createBrowserHistory } from 'history';
+import { ConnectedRouter } from 'connected-react-router';
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { applyMiddleware, createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
 import './App.css';
-import rootReducer from './root-reducer';
-import Routes from './components/routes';
 import Navbar from './components/common/navbar/navbar';
-import './socketHandler';  //for handling socket connections
+import Routes from './components/routes';
+import './socketHandler'; //for handling socket connections
 
-export const history = createBrowserHistory();
-
-const configureStore = () => {
-  return createStore(
-    rootReducer(history),
-    composeWithDevTools(
-      applyMiddleware(
-        routerMiddleware(history),
-        thunk
-      )
-
-    )
-  )
-}
+import {history, store} from './store';
 
 class App extends Component {
 
-  componentDidMount() {
-
-  }
 
   render() {
-    const newStore = configureStore();
+    
     return (
-      <Provider store={newStore}>
+      <Provider store={store}>
 
         <ConnectedRouter history={history}>
 
@@ -43,7 +22,7 @@ class App extends Component {
             <div>
 
               <Navbar >
-                <Routes store={newStore} />
+                <Routes store={store} />
               </Navbar>
 
             </div>

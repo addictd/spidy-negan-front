@@ -5,8 +5,14 @@ import Auth from './auth/auth';
 import Home from './home/home';
 
 
-class Routes extends Component{
-    render(){
+class Routes extends Component {
+    componentDidMount() {
+        // const { store } = this.props;
+        // console.log('here', store.dispatch);
+        // store.dispatch();
+    }
+
+    render() {
         return (<Switch>
             <Route path='/signin' component={Auth} />
             <Route path='/' component={Home} />

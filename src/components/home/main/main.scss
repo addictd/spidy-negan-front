@@ -11,6 +11,16 @@
             .input-group{
                 flex: 1;
                 margin-right : 1rem;
+                cursor : pointer;
+            }
+        }
+    }
+    .available-tags-wrapper{
+        margin-bottom: 1rem;
+        .available-tags-body{
+            .btn{
+                margin-right: 1rem;
+                font-size: .8rem;
             }
         }
     }
