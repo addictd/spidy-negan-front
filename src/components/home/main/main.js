@@ -16,7 +16,7 @@ class Main extends Component {
     //     this.props.actions.getStories({ tag: input_tag });
     // }
     onTagClick = e => {
-        this.props.actions.getArticlesList({ tag: e.currentTarget.getAttribute('data-primary-tag') })
+        this.props.actions.fetchMoreLinks({ tag: e.currentTarget.getAttribute('data-primary-tag') });
     }
     fetchMoreLinks = () => {
         const {input_tag } = this.props.articles;
@@ -63,7 +63,7 @@ class Main extends Component {
 
                 <div className="available-tags-wrapper">
                     <div className="available-tags-body">
-                        <span>Available Tags: &nbsp; &nbsp;</span>
+                        <span>Related Tags: &nbsp; &nbsp;</span>
 
                         {
                             available_tags.map((item, i) => {
@@ -71,10 +71,10 @@ class Main extends Component {
                                     type="button"
                                     className="btn btn-light"
                                     key={item.tag + i}
-                                    data-primary-tag={item.tag}
+                                    data-primary-tag={item}
                                     onClick={this.onTagClick}
                                 >
-                                    <i className="fa fa-search" aria-hidden="true" /> &nbsp; {item.tag}
+                                    <i className="fa fa-search" aria-hidden="true" /> &nbsp; {item}
                                 </button>
                             })
                         }

@@ -15,7 +15,7 @@ const articleReducer = (state = initialState, action) => {
     switch(action.type){
         case aT.SET_INPUT_TAGS : return update(state, { input_tag : action.data.value }); break;
 
-        case aT.SET_AVAILABLE_TAGS: return update(state, {available_tags : [...action.data.tags] }); break;
+        case aT.SET_AVAILABLE_TAGS: return update(state, {available_tags : [...action.data] }); break;
 
         case aT.SET_PRIMARY_TAG: return update(state, {primary_tag : action.data.tag }); break;
 

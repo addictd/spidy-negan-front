@@ -29,3 +29,8 @@ export const fetchMoreLinks = ({ tag }) => {
         socket.emit(aTS.FETCH_MORE_LINKS, _data);
     }
 }
+
+export const setRelatedTags = ({related_tags}) => ({
+    type : aT.SET_AVAILABLE_TAGS,
+    data : related_tags
+})

@@ -16,6 +16,12 @@ const socketEvents = (socket) => {
         NotifyMe("error", "Error in getting articles.");
     });
     
+
+    socket.on(aTS.GET_RELATED_TAGS_SUCCESS, (data) => {
+        console.log('[GET_RELATED_TAGS_SUCCESS]: ' ,data);
+        const {related_tags} = data;
+        store.dispatch(articleActions.setRelatedTags({related_tags}));
+    });
 }
 
 export default socketEvents;
