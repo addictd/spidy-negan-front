@@ -2,37 +2,30 @@ import * as aT from "../utils/actionTypes";
 import socket from '../../socketHandler';
 import * as aTS from '../utils/actionTypesSocket';
 
-export const onChangeInput = ({type, value}) => ({
-    type : aT.SET_INPUT_TAGS,
-    data : {type, value}
+export const onChangeInput = ({ type, value }) => ({
+    type: aT.SET_INPUT_TAGS,
+    data: { type, value }
 })
 
-export const onSearchTag = ({tag}) => {
-    return dispatch => {
-        console.log(aTS.SEARCH_TAG, tag);
-        socket.emit(aTS.SEARCH_TAG , {tag});
-    }
-}
-
-export const setAvailableTags = ({tags}) => ({
-    type : aT.SET_AVAILABLE_TAGS,
-    data : {tags}
+export const pushArticle = ({ article }) => ({
+    type: aT.PUSH_ARTICLE,
+    data: article
 });
 
-export const setPrimaryTag = ({tag}) => ({
-    type : aT.SET_PRIMARY_TAG,
-    data : {tag}
-})
-
-export const getArticlesList =({tag}) => {
-    return dispatch => {
-        dispatch(setPrimaryTag({tag}));
-        console.log(aTS.GET_ARTICLES, tag);
-        socket.emit(aTS.GET_ARTICLES, {tag});
+export const fetchMoreLinks = ({ tag }) => {
+    return (dispatch, getState) => {
+        try {
+            var fetched_article_id = getState().articles.articles.map(item => item.identifier);
+        } catch (err) {
+            console.log('fetched_article_id is throwing error.');
+        }
+        const more_count = 10;
+        const _data = {
+            tag,
+            fetched_ids: fetched_article_id,
+            count: fetched_article_id.length + more_count
+        };
+        console.log(aTS.FETCH_MORE_LINKS, tag);
+        socket.emit(aTS.FETCH_MORE_LINKS, _data);
     }
 }
-
-export const pushArticle = ({article}) => ({
-    type : aT.PUSH_ARTICLE,
-    data : article
-});

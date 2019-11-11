@@ -11,12 +11,16 @@ class Main extends Component {
         const value = e.target.value;
         this.props.actions.onChangeInput({ type, value });
     }
-    onSearch = () => {
-        const { input_tag } = this.props.articles;
-        this.props.actions.onSearchTag({ tag: input_tag });
-    }
+    // onSearch = () => {
+    //     const { input_tag } = this.props.articles;
+    //     this.props.actions.getStories({ tag: input_tag });
+    // }
     onTagClick = e => {
         this.props.actions.getArticlesList({ tag: e.currentTarget.getAttribute('data-primary-tag') })
+    }
+    fetchMoreLinks = () => {
+        const {input_tag } = this.props.articles;
+        this.props.actions.fetchMoreLinks({tag : input_tag});
     }
     render() {
         const { input_tag, articles, available_tags } = this.props.articles;
@@ -28,25 +32,32 @@ class Main extends Component {
                     <div className="control-body">
                         <div className="input-group mb-3">
                             <div
-                                onClick={this.onSearch}
+                                onClick={this.fetchMoreLinks}
                                 className="input-group-prepend">
                                 <span className="input-group-text" >
                                     <i className="fa fa-search" aria-hidden="true"></i>
+                                    {articles.length ? "Fetch more" : 'Fetch articles'}
                                 </span>
                             </div>
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder="Enter tags separated by commas"
+                                placeholder="Enter tag"
                                 data-type="input_tag"
                                 value={input_tag}
                                 onChange={this.onChange}
-                                onKeyUp={e => { if (e.keyCode === 13) { this.onSearch(); } }}
+                                onKeyUp={e => { if (e.keyCode === 13) { this.fetchMoreLinks(); } }}
                             />
                         </div>
                         <div>
-                            <button type="button" className="btn btn-light">Search time</button>
+                            remaining
+                            {/* <button 
+                                type="button" 
+                                className="btn btn-light"
+                                onClick={this.fetchMoreLinks}
+                                >{articles.length ? "Fetch more" : 'Fetch articles'}</button> */}
                         </div>
+                        
                     </div>
                 </div>
 
@@ -75,7 +86,7 @@ class Main extends Component {
                     <div className="post-body">
                         {
                             articles.map((item, i) => {
-                                if (item.error) return <div className="card" key={item.toString() + i} >
+                                if (item.err) return <div className="card" key={item.toString() + i} >
                                     <div className="card-body">
                                         <p>Unable to load content</p>
                                     </div>
@@ -86,9 +97,6 @@ class Main extends Component {
 
                                         <p>author: {item.author.name}</p>
                                         <p>datePublished: {(new Date(Date.parse(item.datePublished))).toLocaleDateString()}</p>
-                                        {/* <p>{item.read_time}</p>
-
-                                            <p>{item.url}</p> */}
                                         <p>fetch_time: {item.fetch_time / (1000)} &nbsp; seconds</p>
                                         <p className="card-text">{item.description}</p>
                                         <p>Tags : &nbsp;
