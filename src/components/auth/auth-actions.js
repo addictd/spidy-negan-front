@@ -13,8 +13,8 @@ export const signin = ({email, password}) => {
             if(!status) throw msg;
 
             NotifyMe('success', msg);
-            ls_set([config.TOKEN], data.token);
-            dispatch(replace("/home"));
+            ls_set(config.TOKEN, data.token);
+            dispatch(replace("/"));
         }catch(err){
             console.log('[err][signin]: ', err);
             NotifyMe('error', err.toString() );
