@@ -7,13 +7,6 @@ import Signout from './auth/signout';
 import { ls_get } from './services/ls-service';
 import config from '../../config';
 
-const checkAuth = (Home, Signout) => {
-    if(ls_get(config.TOKEN)){
-        return Home;
-    }else{
-        return Signout;
-    }
-}
 
 class Routes extends Component {
     componentDidMount() {
@@ -26,7 +19,7 @@ class Routes extends Component {
         return (<Switch>
             <Route path='/signin' component={Auth} />
             <Route path='/signout' component={Signout } />
-            <Route path='/' component={ checkAuth(Home, Signout) } />
+            <Route path='/' component={ ls_get(config.TOKEN) ? Home : Signout} />
         </Switch>);
     }
 }

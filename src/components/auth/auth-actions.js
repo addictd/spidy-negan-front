@@ -2,8 +2,7 @@ import { replace } from "connected-react-router";
 import config from '../../../config';
 import { getAllUsers, signIn, signUp } from "../common/api/api";
 import { NotifyMe } from "../common/notifyMe";
-import { ls_remove, ls_set, ls_get } from "../services/ls-service";
-import * as socketServices from '../services/socketServices';
+import { ls_clear, ls_set } from "../services/ls-service";
 
 export const signin = ({email, password}) => {
     return async dispatch => {
@@ -43,8 +42,8 @@ export const signup = ({email, password, name}) => {
 export const signout = () => {
     return async dispatch => {
         try{
-            ls_remove(config.TOKEN);
-            NotifyMe('success', "Successfully logged out.");
+            ls_clear();
+            // NotifyMe('success', "Successfully logged out.");
             dispatch(replace("/signin"));
         }catch(err){
             console.log('[err][signout]: ', err);

@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import * as actions from './auth-actions';
 
 class SignOut extends Component {
-    componentWillMount(){
+    componentDidMount(){
         this.props.actions.signout();
     }
     render() {
