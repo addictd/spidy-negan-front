@@ -56,11 +56,6 @@ class Auth extends Component {
                     &nbsp;&nbsp;
                     <button className="btn btn-primary" onClick={this.onSignUp}>Sign Up</button>
 
-                    <hr></hr>
-
-                    <button onClick={this.props.actions.emitEvent1}>
-                        emit event1
-                            </button>
                 </div>
             </div>
 

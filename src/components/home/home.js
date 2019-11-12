@@ -4,6 +4,9 @@ import Filter from './filter/filter';
 import Main from './main/main';
 
 class Home extends Component {
+    componentDidMount(){
+        
+    }
     render() {
         return <div className="home-wrapper">
             <div className="container-fluid home-body">
