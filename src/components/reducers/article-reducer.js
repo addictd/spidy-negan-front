@@ -81,6 +81,9 @@ const articleReducer = (state = initialState, action) => {
             newState.articles = new_articles;
             return newState;
         }break;
+
+        case aT.SET_ARTICLES: return update(state, {articles : [...action.data] }) ;break;
+
         case aT.SET_FILTER_INPUT : {
             const newState = Object.assign({}, state);
             const newFilter = Object.assign({}, newState.filter);

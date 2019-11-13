@@ -1,12 +1,14 @@
 .filter-wrapper{
     flex: 1;
-    background-color: gainsboro;
     padding : 1rem;
-
-    background-color: rgba(220, 220, 220, 1);
+    background-color: rgba(40, 40, 40,.4);
+    
     .filter-body{
         .input-fields{
             
+        }
+        header{
+            color : white;
         }
 
         .filter-preview{

@@ -2,9 +2,9 @@ import * as aT from "../utils/actionTypes";
 import socket from '../../socketHandler';
 import * as aTS from '../utils/actionTypesSocket';
 
-export const onChangeInput = ({ type, value }) => ({
+export const onChangeInput = ({ value }) => ({
     type: aT.SET_INPUT_TAGS,
-    data: { type, value }
+    data: { value }
 })
 
 export const pushArticle = ({ article }) => {
@@ -19,6 +19,13 @@ export const pushArticle = ({ article }) => {
         dispatch(_pushArticle({article }));
     }
 };
+
+
+export const setArticle = ({ articles }) => ({
+    type : aT.SET_ARTICLES,
+    data : articles
+})
+
 
 export const _pushArticle = ({ article }) => ({
     type: aT.PUSH_ARTICLE,
@@ -40,6 +47,8 @@ export const fetchMoreLinks = ({ tag }) => {
         };
         console.log(aTS.FETCH_MORE_LINKS, tag);
         socket.emit(aTS.FETCH_MORE_LINKS, _data);
+        dispatch(setArticle({articles : [] }));
+        dispatch(setFilteredArticles({articles : [] }));
     }
 }
 
@@ -53,12 +62,12 @@ export const onChangeFilterInput = ({ key, value }) => ({
     data: { key, value }
 })
 
-export const setShowFiltered = (_bool) => ({
+export const setShowFiltered = ({ status }) => ({
     type: aT.SET_SHOW_FILTERED,
-    data: _bool
+    data: status
 })
 
-export const setFilteredArticles = (obj) => ({
+export const setFilteredArticles = ({articles}) => ({
     type: aT.SET_FILTERED_ARTICLES,
-    data: obj
+    data: articles
 })

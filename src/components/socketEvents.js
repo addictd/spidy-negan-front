@@ -2,13 +2,18 @@ import * as aTS from './utils/actionTypesSocket';
 import {store} from '../store';
 import * as articleActions from './home/article-actions';
 import { NotifyMe } from './common/notifyMe';
+import { blink_logo } from './utils/effects';
 
 const socketEvents = (socket) => {
 
     socket.on(aTS.FETCH_MORE_LINKS_SUCCESS, (data) => {
         console.log('[FETCH_MORE_LINKS_SUCCESS]: ' ,data);
-        const {article} = data;
-        store.dispatch(articleActions.pushArticle({article}));
+        const {article, tag} = data;
+        blink_logo();
+        const {input_tag} = store.getState().articles;
+        if(input_tag === tag){
+            store.dispatch(articleActions.pushArticle({article}));
+        }
     });
 
     socket.on(aTS.FETCH_MORE_LINKS_FAIL, (data) => {

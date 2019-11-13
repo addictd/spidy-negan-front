@@ -81,7 +81,7 @@ class Filter extends Component {
         const filtered_articles = this.filterFunction({ obj: articles, filterObj });
         console.log('filtered articles: ', filtered_articles);
 
-        this.props.actions.setFilteredArticles(filtered_articles);
+        this.props.actions.setFilteredArticles({articles : filtered_articles});
     }
 
     render() {

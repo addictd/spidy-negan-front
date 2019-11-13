@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import './navbar.scss';
 import { Flip, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import logo from '../../../../public/images/logo.png';
+import { ls_get } from '../../services/ls-service';
+import config from '../../../../config';
 
 class Navbar extends Component {
     constructor(props) {
@@ -43,25 +45,38 @@ class Navbar extends Component {
                 </div>
                 <div>
                     <div>
-                        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                            <a className="navbar-brand" href="#">Navbar</a>
-                            <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                                aria-controls="navbarNav" aria-expanded="false" aria-label="toggle navigation">
-                                <span className="navbar-toggler-icon"></span>
-                            </button>
-                            <div className="collapse navbar-collapse" id="navbarNav">
-                                <ul className="navbar-nav">
+                        <ul className="nav">
+                            <li className="nav-item logo" >
+                                <Link className="nav-link" to='/home'>
+                                    <img 
+                                    src={logo} 
+                                    id="logo-identifier" 
+                                    />
+                                </Link>
 
-                                    {this.state.navItems.map((val, i) => {
-                                        return <li className="nav-item active" key={val.name + i}>
-                                            <Link className="nav-link" to={val.route}>
-                                                {val.name}
-                                            </Link>
-                                        </li>
-                                    })}
-                                </ul>
-                            </div>
-                        </nav>
+                            </li>
+                            <li className="nav-item logo-name" >
+                                <Link className="nav-link" to='/home'>
+                                    <h4>Spidy - Negan</h4>
+                                </Link>
+
+                            </li>
+                            {
+                                ls_get(!config.TOKEN)
+                                    ? <li className="nav-item">
+                                        <Link className="nav-link" to='/signin'>Sign In</Link>
+                                    </li>
+                                    : <li className="nav-item">
+                                        <Link className="nav-link" to='/signout'>
+                                            <i className="fa fa-sign-out" aria-hidden="true" ></i>
+                                        </Link>
+                                    </li>
+                            }
+
+                        </ul>
+
+
+
                     </div>
                 </div>
                 <div>
