@@ -7,7 +7,20 @@ export const onChangeInput = ({ type, value }) => ({
     data: { type, value }
 })
 
-export const pushArticle = ({ article }) => ({
+export const pushArticle = ({ article }) => {
+    return dispatch => {
+        const _keywords = article.keywords.filter(item => {
+            if (item.split(":")[0] === 'Tag') return true;
+            return false;
+        })
+        .map(tag => tag.split(':')[1]);
+        article.keywords = _keywords;
+        console.log('article: ', article);
+        dispatch(_pushArticle({article }));
+    }
+};
+
+export const _pushArticle = ({ article }) => ({
     type: aT.PUSH_ARTICLE,
     data: article
 });
@@ -30,7 +43,22 @@ export const fetchMoreLinks = ({ tag }) => {
     }
 }
 
-export const setRelatedTags = ({related_tags}) => ({
-    type : aT.SET_AVAILABLE_TAGS,
-    data : related_tags
+export const setRelatedTags = ({ related_tags }) => ({
+    type: aT.SET_AVAILABLE_TAGS,
+    data: related_tags
+})
+
+export const onChangeFilterInput = ({ key, value }) => ({
+    type: aT.SET_FILTER_INPUT,
+    data: { key, value }
+})
+
+export const setShowFiltered = (_bool) => ({
+    type: aT.SET_SHOW_FILTERED,
+    data: _bool
+})
+
+export const setFilteredArticles = (obj) => ({
+    type: aT.SET_FILTERED_ARTICLES,
+    data: obj
 })

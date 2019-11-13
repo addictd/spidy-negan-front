@@ -1,4 +1,22 @@
 .filter-wrapper{
     flex: 1;
     background-color: gainsboro;
+    padding : 1rem;
+
+    background-color: rgba(220, 220, 220, 1);
+    .filter-body{
+        .input-fields{
+            
+        }
+
+        .filter-preview{
+            margin-bottom : 1rem;
+            button{
+                padding: .05rem .5rem;
+                font-size: .7rem;
+                margin-right : .7rem;
+            }
+            
+        }
+    }
 }

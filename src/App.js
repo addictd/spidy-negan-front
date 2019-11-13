@@ -1,7 +1,7 @@
 import { ConnectedRouter } from 'connected-react-router';
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import './App.css';
+import './App.scss';
 import Navbar from './components/common/navbar/navbar';
 import Routes from './components/routes';
 import './socketHandler'; //for handling socket connections
