@@ -45,7 +45,7 @@ class Navbar extends Component {
                 </div>
                 <div>
                     <div>
-                        <ul className="nav">
+                        <ul className="nav" id="nav">
                             <li className="nav-item logo" >
                                 <Link className="nav-link" to='/home'>
                                     <img 
@@ -57,7 +57,7 @@ class Navbar extends Component {
                             </li>
                             <li className="nav-item logo-name" >
                                 <Link className="nav-link" to='/home'>
-                                    <h4>Spidy - Negan</h4>
+                                    <h4 id="logo-desc" >Spidy - Negan</h4>
                                 </Link>
 
                             </li>

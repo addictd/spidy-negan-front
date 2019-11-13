@@ -13,7 +13,7 @@ const dummy = [
         dateCreated: "2016-11-19T16:48:30.365Z",
         datePublished: "2016-11-19T16:48:30.365Z",
         dateModified: "2019-01-21T06:33:37.909Z",
-        headline: "I spent 3 months applying to jobs after a coding bootcamp. Here’s what I learned.",
+        headline: "[DUMMY]: I spent 3 months applying to jobs after a coding bootcamp. Here’s what I learned.",
         name: "I spent 3 months applying to jobs after a coding bootcamp. Here’s what I learned.",
         description: "A less-talked about part of the bootcamper’s journey is what happens after you graduate — when you’re searching for that six-figure developer position. I completed Hack Reactor in July 2016 and took…",
         identifier: "9a07468d2331",

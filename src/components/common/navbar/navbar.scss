@@ -46,11 +46,17 @@
     }
 }
 
+#logo-desc{
+    border-style : none;
+}
 .logo-blink {
     animation: blinking 2s infinite;
     animation-iteration-count: 1;
 }
-
+.logo-desc-blink{
+    animation: blinking2 2s infinite;
+    animation-iteration-count: 1;
+}
 @keyframes blinking {
     0% {
         background-color: #37EF50;
@@ -67,3 +73,15 @@
     }
 
 }
+
+
+@keyframes blinking2 {
+    0%{
+      color: #37EF50;
+      border-bottom   : .05rem solid #37EF50;
+    }
+    100%{
+      color: white;
+      border-bottom   : .05rem solid white;
+    }
+  }
