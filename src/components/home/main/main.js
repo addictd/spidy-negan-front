@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from "react-redux";
 import * as actions from '../article-actions';
 import ReactHtmlParser from 'react-html-parser';
+import Loader from '../../common/loader';
 
 const highlightStyle = { color: 'yellow' };
 
@@ -11,8 +12,18 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            show_json: ""
+            show_json: "",
+            show_suggestion: false
         }
+    }
+    componentDidMount() {
+        const inputTagElem = document.querySelector('.main-body input[data-type=input_tag]');
+        inputTagElem.addEventListener("focusin", () => {
+            this.setState({ show_suggestion: true });
+        });
+        inputTagElem.addEventListener("focusout", () => {
+            this.setState({ show_suggestion: false });
+        });
     }
     onChange = e => {
         const type = e.currentTarget.getAttribute('data-type');
@@ -53,19 +64,29 @@ class Main extends Component {
     hide_json = () => this.setState({ show_json: '' });
     changeTab = e => {
         const type = e.currentTarget.getAttribute("data-tab");
-        if(type === 'all') this.props.actions.setShowFiltered({status : false});
-        if(type === 'filtered') this.props.actions.setShowFiltered({status : true });
+        if (type === 'all') this.props.actions.setShowFiltered({ status: false });
+        if (type === 'filtered') this.props.actions.setShowFiltered({ status: true });
     }
     render() {
-        const { show_json } = this.state;
-        const { input_tag, articles, available_tags,show_filtered,filtered_articles } = this.props.articles;
+        const { show_json, show_suggestion } = this.state;
+        const { activity } = this.props.user;
+        const { input_tag, articles, available_tags, show_filtered, filtered_articles } = this.props.articles;
         const hl = this.highlight;
 
-        const articleMap = (item, i) => {
 
-            if (item.err) return <div className="card" key={item.toString() + i} >
+        const articleMap = (item, i) => {
+            if (item.crawl_status === 'wait') return <div className="card" key={item.toString() + i} >
                 <div className="card-body">
-                    <p>Unable to load content</p>
+                    <div className="loader">
+                        {/* {"<Pending />"} */}
+                        <Loader />
+                    </div>
+                </div>
+            </div>
+
+            if (item.crawl_status === 'err') return <div className="card" key={item.toString() + i} >
+                <div className="card-body">
+                    <p className="center">{"<Fetch fail />"}</p>
                 </div>
             </div>
             if (show_json === item.identifier) {
@@ -89,9 +110,9 @@ class Main extends Component {
                         <div className="headerText">
                             <div className="heading">
                                 <a href={item.url} target="_blank">
-                                    <h7 className="card-title">[{i + 1}]&nbsp;{hl(item.headline)}</h7>
+                                    <h6 className="card-title">[{i + 1}]&nbsp;{hl(item.headline)}</h6>
                                 </a>
-                                <span data-identifier={item.identifier} onClick={this.show_json}><i class="fa fa-expand" aria-hidden="true"></i></span>
+                                <span data-identifier={item.identifier} onClick={this.show_json}>&nbsp;&nbsp;<i className="fa fa-expand" aria-hidden="true"></i></span>
                             </div>
                             <div className="meta-details">
                                 <small className="text-muted">Author: {hl(item.author.name)}</small>
@@ -106,7 +127,7 @@ class Main extends Component {
 {
                                         item.keywords.map(tag => <button
                                             type="button"
-                                            class="btn btn-light"
+                                            className="btn btn-light"
                                             key={tag + i}>
                                             {hl(tag)}</button>)
                                     }
@@ -119,20 +140,31 @@ class Main extends Component {
             </div>
         };
 
+        const activityMap = () => {
+            if (input_tag.length) {
+                return activity.filter(item => item.indexOf(input_tag) !== -1)
+                    .map(item => (<input
+                    key={item+ new Date()}
+                        readOnly
+                        type="text"
+                        className="form-control"
+                        data-type="input_tag"
+                        value={item} />)
+                    );
+                    // .map(item => (item => (<div data-type='suggestions'>
+                    //         {item}
+                    //     </div>)
+                    // ))
+            }
+
+        }
+
         return <div className="main-wrapper">
             <div className="main-body">
 
                 <div className="control-wrapper">
                     <div className="control-body">
-                        <div className="input-group mb-3">
-                            <div
-                                onClick={this.fetchMoreLinks}
-                                className="input-group-prepend">
-                                <span className="input-group-text" >
-                                    <i className="fa fa-search" aria-hidden="true"></i>
-                                    &nbsp;&nbsp;{articles.length ? "Fetch more" : 'Fetch articles'}
-                                </span>
-                            </div>
+                        <div className="input-group">
                             <input
                                 type="text"
                                 className="form-control"
@@ -142,21 +174,28 @@ class Main extends Component {
                                 onChange={this.onChange}
                                 onKeyUp={e => { if (e.keyCode === 13) { this.fetchMoreLinks(); } }}
                             />
-                        </div>
-                        {/* <div>
-                            remaining */}
-                        {/* <button 
-                                type="button" 
-                                className="btn btn-light"
+
+                            <div
                                 onClick={this.fetchMoreLinks}
-                                >{articles.length ? "Fetch more" : 'Fetch articles'}</button> */}
-                        {/* </div> */}
+                                className="input-group-prepend">
+                                <span className="input-group-text" >
+                                    <i className="fa fa-search" aria-hidden="true"></i>
+                                    &nbsp;&nbsp;{articles.length ? "Fetch more" : 'Fetch articles'}
+                                </span>
+                            </div>
+                        </div>
 
+                        <div className="input-group suggestions">
+                            {show_suggestion ? activityMap() : <noscript />}
+
+                        </div>
                     </div>
-                </div>
 
-                {
-                    available_tags.length ?
+                </div>
+            </div>
+
+            {
+                available_tags.length ?
                     <div className="available-tags-wrapper">
                         <div className="available-tags-body">
                             <span>Related Tags: &nbsp; &nbsp;</span>
@@ -181,46 +220,47 @@ class Main extends Component {
                             }
 
                         </div>
-                    </div>: <noscript />
-                }
+                    </div> : <noscript />
+            }
 
-                <div className="post-wrapper">
-                    <div className="post-body">
-
-
-                        <div className="post-body-tabs">
-                            <span data-tab="all" onClick={this.changeTab} className={ show_filtered ? '' : "active"}>All</span>
-                            <span data-tab="filtered" onClick={this.changeTab} className={ !show_filtered ? '' : "active"}>Filtered</span>
-                        </div>
+            <div className="post-wrapper">
+                <div className="post-body">
 
 
-                        {
-                            !show_filtered
-                                ? articles.map( articleMap )
-                                : filtered_articles.map(articleMap)
-                            
-                        }
-
-                        {
-                            articles.length > 0
-                                ? <div className="card " >
-                                    <div className="card-body load-more" onClick={this.fetchMoreLinks}>
-                                        <p>Load More</p>
-                                    </div>
-                                </div> : <noscript />
-                        }
-
+                    <div className="post-body-tabs">
+                        <span data-tab="all" onClick={this.changeTab} className={show_filtered ? '' : "active"}>All</span>
+                        <span data-tab="filtered" onClick={this.changeTab} className={!show_filtered ? '' : "active"}>Filtered</span>
                     </div>
 
+
+                    {
+                        !show_filtered
+                            ? articles.map(articleMap)
+                            : filtered_articles.map(articleMap)
+
+                    }
+
+                    {
+                        articles.length > 0
+                            ? <div className="card " >
+                                <div className="card-body load-more" onClick={this.fetchMoreLinks}>
+                                    <p>Load More</p>
+                                </div>
+                            </div> : <noscript />
+                    }
+
                 </div>
+
             </div>
         </div>;
+
     }
 }
 
 const mapStateToProps = state => {
     return {
-        articles: state.articles
+        articles: state.articles,
+        user: state.user
     }
 }
 const mapDispatchToProps = dispatch => {

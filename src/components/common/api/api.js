@@ -5,9 +5,10 @@ import { ls_get } from '../../services/ls-service';
 const server_url = `${config.SERVER_URL}:${config.SERVER_PORT}`;
 
 const callAPI = async function(method, url , data={}){
-    // const token = ls_get(config.TOKEN);
-    const token = ls_get(config.token);
-    
+  
+    const token = ls_get(config.TOKEN);
+    console.log('token: ', token);
+
     const configObj = {};
     configObj.method = method;
     configObj.url = url;
@@ -27,3 +28,8 @@ const callAPI = async function(method, url , data={}){
 export const signUp = ({email, password, name}) => callAPI('post', '/signup', {email, password, name}); 
 export const signIn = ({email, password}) => callAPI('post', '/signin', {email, password});   
 export const getAllUsers = () => callAPI('get', '/allusers');  
+
+
+
+export const getUserActivity = () => callAPI('get', '/activity', {} );   
+export const setUserActivity = ({tag}) => callAPI('post', '/activity', {tag} );   

@@ -1,6 +1,9 @@
 import * as aT from "../utils/actionTypes";
 import socket from '../../socketHandler';
 import * as aTS from '../utils/actionTypesSocket';
+import config from '../../../config';
+import { ls_get } from "../services/ls-service";
+import * as indexActions from '../index-actions';
 
 export const onChangeInput = ({ value }) => ({
     type: aT.SET_INPUT_TAGS,
@@ -13,17 +16,17 @@ export const pushArticle = ({ article }) => {
             if (item.split(":")[0] === 'Tag') return true;
             return false;
         })
-        .map(tag => tag.split(':')[1]);
+            .map(tag => tag.split(':')[1]);
         article.keywords = _keywords;
         console.log('article: ', article);
-        dispatch(_pushArticle({article }));
+        dispatch(_pushArticle({ article }));
     }
 };
 
 
 export const setArticle = ({ articles }) => ({
-    type : aT.SET_ARTICLES,
-    data : articles
+    type: aT.SET_ARTICLES,
+    data: articles
 })
 
 
@@ -40,15 +43,29 @@ export const fetchMoreLinks = ({ tag }) => {
             console.log('fetched_article_id is throwing error.');
         }
         const more_count = 10;
+
         const _data = {
             tag,
             fetched_ids: fetched_article_id,
             count: fetched_article_id.length + more_count
         };
-        console.log(aTS.FETCH_MORE_LINKS, tag);
+        _data[config.TOKEN] = ls_get(config.TOKEN)
         socket.emit(aTS.FETCH_MORE_LINKS, _data);
-        dispatch(setArticle({articles : [] }));
-        dispatch(setFilteredArticles({articles : [] }));
+
+        if (getState().articles.input_tag !== tag) {
+            dispatch(setArticle({ articles: [] }));
+        }
+        dispatch(setFilteredArticles({ articles: [] }));
+        dispatch(indexActions.pushActivity({ keyword: tag }));
+
+        for (let i = 0; i < more_count; i++) {
+            dispatch(_pushArticle({
+                article: {
+                    crawl_status: 'wait',
+                    identifier: ''
+                }
+            }))
+        }
     }
 }
 
@@ -67,7 +84,7 @@ export const setShowFiltered = ({ status }) => ({
     data: status
 })
 
-export const setFilteredArticles = ({articles}) => ({
+export const setFilteredArticles = ({ articles }) => ({
     type: aT.SET_FILTERED_ARTICLES,
     data: articles
-})
+})  

@@ -10,3 +10,6 @@ export const SET_FILTER_INPUT = `${nsp}SET_FILTER_INPUT`;
 
 export const SET_SHOW_FILTERED = `${nsp}SET_SHOW_FILTERED`;
 
+export const SET_ACTIVITY = `${nsp}SET_ACTIVITY`;
+export const PUSH_ACTIVITY = `${nsp}PUSH_ACTIVITY`;
+

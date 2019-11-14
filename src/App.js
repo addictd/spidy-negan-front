@@ -5,7 +5,7 @@ import './App.scss';
 import Navbar from './components/common/navbar/navbar';
 import Routes from './components/routes';
 import './socketHandler'; //for handling socket connections
-
+import Index from './components/index';
 import {history, store} from './store';
 
 class App extends Component {
@@ -20,11 +20,7 @@ class App extends Component {
 
           <div className="App">
             <div>
-
-              <Navbar >
-                <Routes store={store} />
-              </Navbar>
-
+              <Index store={store} />
             </div>
           </div>
 

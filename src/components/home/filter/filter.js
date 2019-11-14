@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import * as actions from '../article-actions';
 import _utils from '../../utils/utils';
 
+
 class Filter extends Component {
     constructor(props) {
         super(props);
@@ -27,9 +28,9 @@ class Filter extends Component {
         return filtered;
     }
     filterFunction = ({ obj, filterObj }) => {
-
+        obj = obj.filter(item => item.crawl_status === 'success' );
         const filterObj_keys = Object.keys(filterObj);
-        console.log("filterObj_keys: ", filterObj_keys);
+        // console.log("filterObj_keys: ", filterObj_keys);
 
         const returnobject = obj.filter(item => {
 
@@ -74,21 +75,20 @@ class Filter extends Component {
     }
     onFilter = () => {
         const { filter, articles } = this.props.articles;
-        // console.log('filter---', filter);
+        
         const filterObj = this.refineSearchObj(filter);
-        // console.log('serach obj: ', filterObj);
 
         const filtered_articles = this.filterFunction({ obj: articles, filterObj });
-        console.log('filtered articles: ', filtered_articles);
 
         this.props.actions.setFilteredArticles({articles : filtered_articles});
+        this.props.actions.setShowFiltered({status : true});
     }
 
     render() {
         const { filter } = this.props.articles;
         
         const refined = this.refineSearchObj(filter);
-        console.log('refined: ', refined);
+        // console.log('refined: ', refined);
         const _search = <div
             className="input-group-prepend">
             <span onClick={this.onFilter} className="input-group-text" style={{ backgroundColor: "white" }}>

@@ -5,17 +5,49 @@
     overflow: auto;
     padding : 1rem;
 
+    .card-body {
+        padding: .5rem 1rem;
+        font-size: .8rem;
+    }
+
+    pre {
+        font-size: .8rem;
+    }
+
+    p{
+        margin-bottom : 0;
+    }
 
 
     .control-wrapper {
         .control-body {
             display       : flex;
-            flex-direction: row;
+            flex-direction: column;
+            position: relative;
 
             .input-group {
                 flex           : 1;
                 // margin-right: 1rem;
                 cursor         : pointer;
+            }
+            .suggestions{
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                max-height: 15rem;
+                position : absolute;
+                z-index : 10;
+                top : 100%;
+
+                input{
+                    width: 100%;
+                    border-radius : 0;
+                    border : none;
+                    padding: .3rem;
+                }
+            }
+            .hidden{
+                display: none;
             }
         }
     }
@@ -55,6 +87,7 @@
                     padding     : .2rem .7rem;
                     font-size   : .8rem;
                     margin-right: 1rem;
+                    cursor: pointer;
 
                     &:hover {
                         background-color: rgb(255, 255, 255);
@@ -69,13 +102,6 @@
                 }
             }
 
-            .card-body {
-                padding: .5rem 1rem;
-            }
-
-            pre {
-                font-size: .8rem;
-            }
 
             .hero-section {
                 display       : flex;
@@ -155,6 +181,12 @@
                     color : green;
                     text-decoration: underline;
                 }
+            }
+
+            .loader{
+                // display: flex;
+                // flex-direction: row-reverse;
+                // margin :0 auto;
             }
         }
     }

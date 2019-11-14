@@ -2,7 +2,10 @@
     flex: 1;
     padding : 1rem;
     background-color: rgba(40, 40, 40,.4);
-    
+    i:hover{
+        color : green;
+        cursor : pointer;
+    }
     .filter-body{
         .input-fields{
             
