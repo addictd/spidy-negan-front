@@ -52,10 +52,12 @@ export const fetchMoreLinks = ({ tag }) => {
         _data[config.TOKEN] = ls_get(config.TOKEN)
         socket.emit(aTS.FETCH_MORE_LINKS, _data);
 
-        if (getState().articles.input_tag !== tag) {
+        if (getState().articles.primary_tag !== tag) {
             dispatch(setArticle({ articles: [] }));
+            dispatch(setFilteredArticles({ articles: [] }));
+            dispatch(setPrimaryTag({ tag }));  //set primary tag
         }
-        dispatch(setFilteredArticles({ articles: [] }));
+
         dispatch(indexActions.pushActivity({ keyword: tag }));
 
         for (let i = 0; i < more_count; i++) {
@@ -87,18 +89,23 @@ export const setShowFiltered = ({ status }) => ({
 export const setFilteredArticles = ({ articles }) => ({
     type: aT.SET_FILTERED_ARTICLES,
     data: articles
-})  
+})
 
 
 
 export const fetchResponses = ({ id }) => {
     return dispatch => {
-        socket.emit(aTS.GET_RESPONSES, {id})
+        socket.emit(aTS.GET_RESPONSES, { id })
     }
 };
 
 
-export const setBlogResponse = ({blog_response}) => ({
-    type : aT.SET_BLOG_RESPONSE,
-    data : blog_response
-}) 
+export const setBlogResponse = ({ blog_response }) => ({
+    type: aT.SET_BLOG_RESPONSE,
+    data: blog_response
+});
+
+export const setPrimaryTag = ({ tag }) => ({
+    type: aT.SET_PRIMARY_TAG,
+    data: tag
+})

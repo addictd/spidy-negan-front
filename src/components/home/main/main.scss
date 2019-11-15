@@ -54,6 +54,7 @@
 
     .available-tags-wrapper {
         margin-bottom: 1rem;
+        margin-top: 1rem;
 
         span {
             color: white;
@@ -82,12 +83,18 @@
                 display       : flex;
                 flex-direction: row;
                 margin-bottom : .3rem;
+                margin-top: .5rem;
 
                 span {
                     padding     : .2rem .7rem;
                     font-size   : .8rem;
                     margin-right: 1rem;
                     cursor: pointer;
+                    background-color : rgb(32, 32, 32);
+                    border-top-left-radius: .2rem;
+                    border-top-right-radius: .2rem;
+
+                    border-bottom: 3px solid rgb(32, 32, 32);
 
                     &:hover {
                         background-color: rgb(255, 255, 255);
@@ -98,7 +105,7 @@
                 }
 
                 .active {
-                    border-bottom: 1px solid #37EF50;
+                    border-bottom: 3px solid #37EF50;
                 }
             }
 
@@ -126,6 +133,7 @@
                         justify-content: space-between;
                         a:hover{
                             color : green;
+                            cursor: pointer;
                         }
                         span {
                             color: gray;

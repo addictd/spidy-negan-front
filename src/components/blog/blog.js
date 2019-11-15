@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import './blog.scss';
 import * as actions from '../home/article-actions';
+import Loader from '../common/loader';
 
 class Blog extends Component {
     constructor(props) {
@@ -99,12 +100,10 @@ class Blog extends Component {
 
     render() {
         const { id, article } = this.state;
+        const { blog_response } = this.props.articles;
         console.log('article : ', article);
         console.log('state : ', this.state);
 
-        // const _not_found = 
-
-        // const found = 
 
         return <div className="blog-wrapper">
 
@@ -117,7 +116,9 @@ class Blog extends Component {
 
                 </div>
                 <div id="blog-body-responses"  >
-
+                    <div className={blog_response ? "loader hidden" : "loader"}>
+                        Loading &nbsp;&nbsp;<Loader /> &nbsp;&nbsp;Responses
+                    </div>
                 </div>
             </div>
 

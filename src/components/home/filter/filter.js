@@ -103,6 +103,7 @@ class Filter extends Component {
                 <div className="filter-preview">
 
                 { Object.keys(refined).map(_key => ( <button 
+                key={_key.toString() + (new Date()).getTime()}
                     type="button" 
                     className="btn btn-light btn-sm"
                     data-keyname={_key}

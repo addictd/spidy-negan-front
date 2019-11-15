@@ -83,9 +83,9 @@ const dummy = [
 
 const initialState = {
     input_tag: '',  // look for tag
-    available_tags: [],
-    articles: dummy,
-    primary_tag: '',
+    available_tags: [], //related tags
+    articles: dummy,    //list of articles
+    primary_tag: '', //tag for which the current result is being displayed
     filter: {
         word: '',
         tags: '',
