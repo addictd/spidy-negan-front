@@ -88,3 +88,17 @@ export const setFilteredArticles = ({ articles }) => ({
     type: aT.SET_FILTERED_ARTICLES,
     data: articles
 })  
+
+
+
+export const fetchResponses = ({ id }) => {
+    return dispatch => {
+        socket.emit(aTS.GET_RESPONSES, {id})
+    }
+};
+
+
+export const setBlogResponse = ({blog_response}) => ({
+    type : aT.SET_BLOG_RESPONSE,
+    data : blog_response
+}) 

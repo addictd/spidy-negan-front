@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import * as actions from '../article-actions';
 import ReactHtmlParser from 'react-html-parser';
 import Loader from '../../common/loader';
+import { withRouter } from 'react-router-dom';
 
 const highlightStyle = { color: 'yellow' };
 
@@ -67,6 +68,10 @@ class Main extends Component {
         if (type === 'all') this.props.actions.setShowFiltered({ status: false });
         if (type === 'filtered') this.props.actions.setShowFiltered({ status: true });
     }
+    openArticle = e => {
+        const id = e.currentTarget.getAttribute('data-identifier');
+        this.props.history.push('/article/' + id);
+    }
     render() {
         const { show_json, show_suggestion } = this.state;
         const { activity } = this.props.user;
@@ -109,7 +114,11 @@ class Main extends Component {
                         </div>
                         <div className="headerText">
                             <div className="heading">
-                                <a href={item.url} target="_blank">
+                                {/* <a href={item.url} target="_blank"> */}
+                                <a
+                                    data-identifier={item.identifier}
+                                    onClick={this.openArticle}
+                                >
                                     <h6 className="card-title">[{i + 1}]&nbsp;{hl(item.headline)}</h6>
                                 </a>
                                 <span data-identifier={item.identifier} onClick={this.show_json}>&nbsp;&nbsp;<i className="fa fa-expand" aria-hidden="true"></i></span>
@@ -270,4 +279,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Main));

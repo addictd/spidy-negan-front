@@ -29,6 +29,19 @@ const socketEvents = (socket) => {
         blink_desc();
         store.dispatch(articleActions.setRelatedTags({related_tags}));
     });
+
+
+    socket.on(aTS.GET_RESPONSES_SUCCESS, (data) => {
+        console.log('[GET_RESPONSES_SUCCESS]: ' ,data);
+        const {blog_response} = data;
+        blink_desc();
+        store.dispatch(articleActions.setBlogResponse({blog_response}));
+    });
+    
+    socket.on(aTS.GET_RESPONSES_FAIL, (data) => {
+        console.log('[GET_RESPONSES_FAIL]: ' ,data);
+        NotifyMe("err", "Error fetching response.");
+    });
 }
 
 export default socketEvents;
