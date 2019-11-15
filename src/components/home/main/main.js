@@ -6,8 +6,7 @@ import * as actions from '../article-actions';
 import ReactHtmlParser from 'react-html-parser';
 import Loader from '../../common/loader';
 import { withRouter } from 'react-router-dom';
-
-const highlightStyle = { color: 'yellow' };
+import PropTypes from 'prop-types';
 
 class Main extends Component {
     constructor(props) {
@@ -17,6 +16,7 @@ class Main extends Component {
             show_suggestion: false
         }
     }
+
     componentDidMount() {
         const inputTagElem = document.querySelector('.main-body input[data-type=input_tag]');
         inputTagElem.addEventListener("focusin", () => {
@@ -26,23 +26,23 @@ class Main extends Component {
             this.setState({ show_suggestion: false });
         });
     }
+
     onChange = e => {
         const type = e.currentTarget.getAttribute('data-type');
         const value = e.target.value;
         this.props.actions.onChangeInput({ type, value });
     }
-    // onSearch = () => {
-    //     const { input_tag } = this.props.articles;
-    //     this.props.actions.getStories({ tag: input_tag });
-    // }
+
     onTagClick = e => {
         this.props.actions.onChangeInput({ value: e.currentTarget.getAttribute('data-primary-tag') });
         this.props.actions.fetchMoreLinks({ tag: e.currentTarget.getAttribute('data-primary-tag') });
     }
+
     fetchMoreLinks = () => {
         const { input_tag } = this.props.articles;
         this.props.actions.fetchMoreLinks({ tag: input_tag });
     }
+
     refineObj = obj => {
         const filtered = {};
         const keys = Object.keys(obj);
@@ -51,6 +51,7 @@ class Main extends Component {
         }
         return filtered;
     }
+
     highlight = content => {
         let filter_obj = this.props.articles.filter;
         let filter_keys = Object.values(this.refineObj(filter_obj));
@@ -61,17 +62,21 @@ class Main extends Component {
         new_content = ReactHtmlParser(new_content);
         return new_content;
     }
+
     show_json = e => this.setState({ show_json: e.currentTarget.getAttribute('data-identifier') });
     hide_json = () => this.setState({ show_json: '' });
+
     changeTab = e => {
         const type = e.currentTarget.getAttribute("data-tab");
         if (type === 'all') this.props.actions.setShowFiltered({ status: false });
         if (type === 'filtered') this.props.actions.setShowFiltered({ status: true });
     }
+
     openArticle = e => {
         const id = e.currentTarget.getAttribute('data-identifier');
         this.props.history.push('/article/' + id);
     }
+
     render() {
         const { show_json, show_suggestion } = this.state;
         const { activity } = this.props.user;
@@ -81,9 +86,8 @@ class Main extends Component {
 
         const articleMap = (item, i) => {
             if (item.crawl_status === 'wait') return <div className="card" key={item.toString() + i} >
-                <div className="card-body">
+                <div className="card-body withloader">
                     <div className="loader">
-                        {/* {"<Pending />"} */}
                         <Loader />
                     </div>
                 </div>
@@ -138,8 +142,7 @@ class Main extends Component {
                                             type="button"
                                             className="btn btn-light"
                                             key={tag + i}>
-                                            {hl(tag)}</button>)
-                                    }
+                                            {hl(tag)}</button>)}
                                 </p>
                             </div>
                         </div>
@@ -153,22 +156,18 @@ class Main extends Component {
             if (input_tag.length) {
                 return activity.filter(item => item.indexOf(input_tag) !== -1)
                     .map(item => (<input
-                    key={item+ new Date()}
+                        key={item + new Date()}
                         readOnly
                         type="text"
                         className="form-control"
                         data-type="input_tag"
                         value={item} />)
                     );
-                    // .map(item => (item => (<div data-type='suggestions'>
-                    //         {item}
-                    //     </div>)
-                    // ))
             }
 
         }
 
-        return <div className="main-wrapper">
+        return <div className="main-wrapper" id="maincrawler">
             <div className="main-body">
 
                 <div className="control-wrapper">
@@ -208,12 +207,6 @@ class Main extends Component {
                     <div className="available-tags-wrapper">
                         <div className="available-tags-body">
                             <span>Related Tags: &nbsp; &nbsp;</span>
-                            <button
-                                type="button"
-                                className="btn btn-light"
-                                data-primary-tag='fashion'
-                                onClick={this.onTagClick}
-                            >sdfsf</button>
                             {
                                 available_tags.map((item, i) => {
                                     return <button
@@ -266,6 +259,10 @@ class Main extends Component {
     }
 }
 
+
+
+
+
 const mapStateToProps = state => {
     return {
         articles: state.articles,
@@ -277,6 +274,31 @@ const mapDispatchToProps = dispatch => {
         actions: bindActionCreators(actions, dispatch)
     }
 }
+
+Main.propTypes = {
+    articles: PropTypes.shape({
+        input_tag: PropTypes.string,
+        input_tag: PropTypes.string,
+        available_tags: PropTypes.array,
+        articles: PropTypes.array,
+        primary_tag: PropTypes.string,
+        filter: PropTypes.shape({
+            word: PropTypes.string,
+            tags: PropTypes.string,
+            headline: PropTypes.string,
+            author: PropTypes.string,
+            publisher: PropTypes.string,
+            identifier: PropTypes.string
+        }),
+        filtered_articles: PropTypes.array,
+        show_filtered: PropTypes.bool,
+        blog_response: PropTypes.string
+    }),
+    user: PropTypes.shape({
+        activity: PropTypes.array
+    }),
+    actions: PropTypes.object
+};
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Main));

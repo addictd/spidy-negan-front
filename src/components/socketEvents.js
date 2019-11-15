@@ -9,10 +9,9 @@ const socketEvents = (socket) => {
     socket.on(aTS.FETCH_MORE_LINKS_SUCCESS, (data) => {
         console.log('[FETCH_MORE_LINKS_SUCCESS]: ' ,data);
         const {article, tag} = data;
-        // blink_logo();
         blink_desc();
-        const {input_tag} = store.getState().articles;
-        if(input_tag === tag){
+        const {primary_tag} = store.getState().articles;
+        if(primary_tag === tag){
             store.dispatch(articleActions.pushArticle({article}));
         }
     });

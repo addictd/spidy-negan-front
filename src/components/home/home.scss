@@ -1,11 +1,26 @@
 .home-wrapper{
     height: calc(100vh - 56px );
     overflow : auto;
+
+    
     .home-body{
         height: 100%;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
 
+    }
+}
+
+@media  (max-width: 950px) {
+    .home-wrapper{
+        margin : 0 0;
+    }
+}
+
+@media (min-width: 950px)  {
+
+    .home-wrapper{
+        margin : 0 10vw;
     }
 }

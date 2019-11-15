@@ -1,8 +1,10 @@
 import React from 'react';
+import './loader.scss';
+
 
 const Loader = ({ }) => {
-    return <div className="spinner-border" role="status">
-        <span className="sr-only">Loading...</span>
+    return <div className="loader-wrapper">
+        <div class="three_dot_loader"></div>
     </div>
 }
 

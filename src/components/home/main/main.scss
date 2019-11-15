@@ -4,6 +4,7 @@
     flex    : 3;
     overflow: auto;
     padding : 1rem;
+    background-color: rgba(40, 40, 40,.4);
 
     .card-body {
         padding: .5rem 1rem;
@@ -89,6 +90,7 @@
                     padding     : .2rem .7rem;
                     font-size   : .8rem;
                     margin-right: 1rem;
+                    font-weight :bold;
                     cursor: pointer;
                     background-color : rgb(32, 32, 32);
                     border-top-left-radius: .2rem;
@@ -190,8 +192,10 @@
                     text-decoration: underline;
                 }
             }
-
+            .withloader{
+            }
             .loader{
+                text-align: center;
                 // display: flex;
                 // flex-direction: row-reverse;
                 // margin :0 auto;

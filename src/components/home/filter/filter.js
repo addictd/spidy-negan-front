@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './filter.scss';
-
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from "react-redux";
 import * as actions from '../article-actions';
@@ -14,11 +14,15 @@ class Filter extends Component {
         }
     }
 
-    onChange = e => { 
+    onChange = e => {
         const key = e.currentTarget.getAttribute("data-keyname");
         const value = e.target.value || e.currentTarget.getAttribute("data-value");
         this.props.actions.onChangeFilterInput({ key, value });
+        if(!e.target.value){
+            this.onFilter();
+        }
     }
+
     refineSearchObj = (obj) => {
         const filtered = {};
         const keys = Object.keys(obj);
@@ -27,8 +31,9 @@ class Filter extends Component {
         }
         return filtered;
     }
+
     filterFunction = ({ obj, filterObj }) => {
-        obj = obj.filter(item => item.crawl_status === 'success' );
+        obj = obj.filter(item => item.crawl_status === 'success');
         const filterObj_keys = Object.keys(filterObj);
         // console.log("filterObj_keys: ", filterObj_keys);
 
@@ -73,20 +78,19 @@ class Filter extends Component {
         });
         return returnobject;
     }
+
     onFilter = () => {
         const { filter, articles } = this.props.articles;
-        
+
         const filterObj = this.refineSearchObj(filter);
-
         const filtered_articles = this.filterFunction({ obj: articles, filterObj });
-
-        this.props.actions.setFilteredArticles({articles : filtered_articles});
-        this.props.actions.setShowFiltered({status : true});
+        this.props.actions.setFilteredArticles({ articles: filtered_articles });
+        this.props.actions.setShowFiltered({ status: true });
     }
 
     render() {
         const { filter } = this.props.articles;
-        
+
         const refined = this.refineSearchObj(filter);
         // console.log('refined: ', refined);
         const _search = <div
@@ -102,16 +106,16 @@ class Filter extends Component {
                 </header>
                 <div className="filter-preview">
 
-                { Object.keys(refined).map(_key => ( <button 
-                key={_key.toString() + (new Date()).getTime()}
-                    type="button" 
-                    className="btn btn-light btn-sm"
-                    data-keyname={_key}
-                    onClick={this.onChange}
-                    data-value=''
+                    {Object.keys(refined).map(_key => (<button
+                        key={_key.toString() + (new Date()).getTime()}
+                        type="button"
+                        className="btn btn-light btn-sm"
+                        data-keyname={_key}
+                        onClick={this.onChange}
+                        data-value=''
                     >{refined[_key]}
-                    
-                    &nbsp;&nbsp;<i className="fa fa-close " ></i> </button>) )}
+
+                        &nbsp;&nbsp;<i className="fa fa-close " ></i> </button>))}
                 </div>
 
                 <div className="input-fields">
@@ -172,17 +176,6 @@ class Filter extends Component {
                             onKeyUp={e => { if (e.keyCode === 13) { this.onFilter(); } }}
                         />{_search}
                     </div>
-                    {/* <div className="input-group mb-3">
-                        <input
-                            type="text"
-                            className="form-control"
-                            placeholder="By identifier"
-                            data-keyname=""
-                            value={filter.identifier}
-                            onChange={this.onChange}
-                            onKeyUp={e => { if (e.keyCode === 13) { this.onFilter(); } }}
-                        />{_search}
-                    </div> */}
 
                 </div>
             </div>
@@ -192,7 +185,6 @@ class Filter extends Component {
 
 const mapStateToProps = state => {
     return {
-        filter: state.articles.filter,
         articles: state.articles
     }
 }
@@ -201,5 +193,31 @@ const mapDispatchToProps = dispatch => {
         actions: bindActionCreators(actions, dispatch)
     }
 }
+
+Filter.propTypes = {
+    articles: PropTypes.shape({
+        input_tag: PropTypes.string,
+        input_tag: PropTypes.string,
+        available_tags: PropTypes.array,
+        articles: PropTypes.array,
+        primary_tag: PropTypes.string,
+        filter: PropTypes.shape({
+            word: PropTypes.string,
+            tags: PropTypes.string,
+            headline: PropTypes.string,
+            author: PropTypes.string,
+            publisher: PropTypes.string,
+            identifier: PropTypes.string
+        }),
+        filtered_articles: PropTypes.array,
+        show_filtered: PropTypes.bool,
+        blog_response: PropTypes.string
+    }),
+    user: PropTypes.shape({
+        activity: PropTypes.array
+    }),
+    actions: PropTypes.object
+};
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Filter);

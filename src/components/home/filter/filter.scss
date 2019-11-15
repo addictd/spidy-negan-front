@@ -2,6 +2,8 @@
     flex: 1;
     padding : 1rem;
     background-color: rgba(40, 40, 40,.4);
+    margin-right: 1rem;
+
     i:hover{
         color : green;
         cursor : pointer;
@@ -12,6 +14,9 @@
         }
         header{
             color : white;
+            p{
+                font-weight: bold;
+            }
         }
 
         .filter-preview{
