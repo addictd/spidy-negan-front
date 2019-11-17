@@ -1,4 +1,4 @@
-.nav {
+#nav {
     padding         : .5rem 2rem;
     border-bottom   : .05rem solid white;
     background-color: #202020;
@@ -48,6 +48,7 @@
 
 #logo-desc{
     border-style : none;
+    font-size : 1.2rem;
 }
 .logo-blink {
     animation: blinking 2s infinite;

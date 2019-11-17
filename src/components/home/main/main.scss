@@ -39,12 +39,14 @@
                 position : absolute;
                 z-index : 10;
                 top : 100%;
+                overflow: auto;
 
-                input{
-                    width: 100%;
-                    border-radius : 0;
-                    border : none;
-                    padding: .3rem;
+                .activityMap{
+                    background-color: rgba(255, 255, 255,1);
+                    font-size : .7rem;
+                    padding : .2rem;
+                    border : 1px solid gray;
+                    border-top : none;
                 }
             }
             .hidden{

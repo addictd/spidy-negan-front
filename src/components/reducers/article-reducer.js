@@ -88,7 +88,7 @@ const initialState = {
     primary_tag: '', //tag for which the current result is being displayed
     filter: {
         word: '',
-        tags: '',
+        keywords: '',
         headline: '',
         author: '',
         publisher: '',

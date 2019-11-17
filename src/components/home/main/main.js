@@ -34,6 +34,7 @@ class Main extends Component {
     }
 
     onTagClick = e => {
+        console.log('on tag clicked: ');
         this.props.actions.onChangeInput({ value: e.currentTarget.getAttribute('data-primary-tag') });
         this.props.actions.fetchMoreLinks({ tag: e.currentTarget.getAttribute('data-primary-tag') });
     }
@@ -84,6 +85,8 @@ class Main extends Component {
         const hl = this.highlight;
 
 
+        const activity_filtered = activity.filter(item => item.indexOf(input_tag) !== -1);
+
         const articleMap = (item, i) => {
 
 
@@ -99,7 +102,7 @@ class Main extends Component {
             if (item.crawl_status === 'pending') return <div className="card" key={item.toString() + i} >
                 <div className="card-body withloader">
                     <div className="loader">
-                         { "<pending>" } {item.headline}
+                        <span className="bold">{"<pending>"} </span>{item.headline}
                     </div>
                 </div>
             </div>
@@ -107,14 +110,14 @@ class Main extends Component {
             if (item.crawl_status === 'crawling') return <div className="card" key={item.toString() + i} >
                 <div className="card-body withloader">
                     <div className="loader">
-                         { "<crawling>" } {item.headline}
+                        <span className="bold">{"<crawling>"}</span> {item.headline}
                     </div>
                 </div>
             </div>
 
             if (item.crawl_status === 'err') return <div className="card" key={item.toString() + i} >
                 <div className="card-body">
-                    <p className="center">{"<Fetch fail />"}</p>
+                    <p className="center"><span className="bold">{"<Fetch fail />"}</span></p>
                 </div>
             </div>;
 
@@ -152,7 +155,7 @@ class Main extends Component {
                                 <small className="text-muted">
                                     DatePublished: {(new Date(Date.parse(item.datePublished))).toLocaleDateString()}</small>
                                 <small className="text-muted">Publisher: {hl(item.publisher)}</small>
-                                <small className="text-muted">Fetch_time: {item.fetch_time / (1000)} sec</small>
+                                <small className="bold">Fetch_time: {item.fetch_time / (1000)} sec</small>
                             </div>
                             <div className="hero-details">
                                 <p className="article-description">{hl(item.description)}</p>
@@ -171,21 +174,6 @@ class Main extends Component {
                 </div>
             </div>
         };
-
-        const activityMap = () => {
-            if (input_tag.length) {
-                return activity.filter(item => item.indexOf(input_tag) !== -1)
-                    .map(item => (<input
-                        key={item + new Date()}
-                        readOnly
-                        type="text"
-                        className="form-control"
-                        data-type="input_tag"
-                        value={item} />)
-                    );
-            }
-
-        }
 
         const noArticle = <div className="card"  >
             <div className="card-body">
@@ -221,8 +209,17 @@ class Main extends Component {
                             </div>
                         </div>
 
-                        <div className="input-group suggestions">
-                            {show_suggestion ? activityMap() : <noscript />}
+                        <div className="suggestions">
+                            {show_suggestion
+                                ? activity_filtered.map(item => (<div
+                                    className="activityMap"
+                                    key={item + new Date()}
+                                    data-primary-tag={item.toLowerCase()}
+                                    onClick={this.onTagClick}
+                                > {item}
+                                </div>))
+
+                                : <noscript />}
 
                         </div>
                     </div>
@@ -276,7 +273,7 @@ class Main extends Component {
                         articles.length > 0
                             ? <div className="card " >
                                 <div className="card-body load-more" onClick={this.fetchMoreLinks}>
-                                    <p>Load More</p>
+                                    <p>Load 10 More items</p>
                                 </div>
                             </div> : <noscript />
                     }

@@ -49,25 +49,35 @@ class Filter extends Component {
                     _value = _value.toLowerCase();
                 }
 
+                // if (_key === "tags") {
+                //     let flag = false;
+                //     item['keywords'].forEach(tag => {
+                //         if (tag.toLowerCase().indexOf(_value) > -1) {
+                //             flag = true;
+                //         }
+                //     });
+                //     return_bool = flag;
 
-                if (_key === "tags") {
-                    let flag = false;
-                    item['keywords'].forEach(tag => {
-                        if (tag.toLowerCase().indexOf(_value) > -1) {
-                            flag = true;
-                        }
-                    });
-                    return_bool = flag;
-
-                } else if (_key === "author") {
-                    if (item["author"]['name'].toLowerCase().indexOf(_value) === -1) {
+                // } else if (_key === "author") {
+                //     if (item["author"].toLowerCase().indexOf(_value) === -1) {
+                //         return_bool = false;
+                //     }
+                // } else if (_key === "publisher") {
+                //     if (item['publisher'].toLowerCase().indexOf(_value) === -1) {
+                //         return_bool = false;
+                //     }
+                // } else {
+                //     if (item[_key].toLowerCase().indexOf(_value) === -1) {
+                //         return_bool = false;
+                //     }
+                // }
+                if(_key === 'word'){
+                    const combined = _utils.getAllNestedValues(obj).join(' ');
+                    if(combined.toLowerCase().indexOf(_value) === -1){
                         return_bool = false;
                     }
-                } else if (_key === "publisher") {
-                    if (item['publisher']['name'].toLowerCase().indexOf(_value) === -1) {
-                        return_bool = false;
-                    }
-                } else {
+                }else{
+
                     if (item[_key].toLowerCase().indexOf(_value) === -1) {
                         return_bool = false;
                     }
@@ -120,7 +130,7 @@ class Filter extends Component {
 
                 <div className="input-fields">
 
-                    {/* <div className="input-group mb-3">
+                    <div className="input-group mb-3">
                         <input
                             type="text"
                             className="form-control"
@@ -130,14 +140,14 @@ class Filter extends Component {
                             onChange={this.onChange}
                             onKeyUp={e => { if (e.keyCode === 13) { this.onFilter(); } }}
                         />{_search}
-                    </div> */}
+                    </div>
                     <div className="input-group mb-3">
                         <input
                             type="text"
                             className="form-control"
-                            placeholder="By Tags"
-                            data-keyname="tags"
-                            value={filter.tags}
+                            placeholder="By Keyword"
+                            data-keyname="keywords"
+                            value={filter.keywords}
                             onChange={this.onChange}
                             onKeyUp={e => { if (e.keyCode === 13) { this.onFilter(); } }}
                         />{_search}
