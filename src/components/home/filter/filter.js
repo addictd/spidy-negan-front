@@ -49,28 +49,6 @@ class Filter extends Component {
                     _value = _value.toLowerCase();
                 }
 
-                // if (_key === "tags") {
-                //     let flag = false;
-                //     item['keywords'].forEach(tag => {
-                //         if (tag.toLowerCase().indexOf(_value) > -1) {
-                //             flag = true;
-                //         }
-                //     });
-                //     return_bool = flag;
-
-                // } else if (_key === "author") {
-                //     if (item["author"].toLowerCase().indexOf(_value) === -1) {
-                //         return_bool = false;
-                //     }
-                // } else if (_key === "publisher") {
-                //     if (item['publisher'].toLowerCase().indexOf(_value) === -1) {
-                //         return_bool = false;
-                //     }
-                // } else {
-                //     if (item[_key].toLowerCase().indexOf(_value) === -1) {
-                //         return_bool = false;
-                //     }
-                // }
                 if(_key === 'word'){
                     const combined = _utils.getAllNestedValues(obj).join(' ');
                     if(combined.toLowerCase().indexOf(_value) === -1){
@@ -134,7 +112,7 @@ class Filter extends Component {
                         <input
                             type="text"
                             className="form-control"
-                            placeholder="Serach word"
+                            placeholder="Serach word in complete article"
                             value={filter.word}
                             data-keyname="word"
                             onChange={this.onChange}
