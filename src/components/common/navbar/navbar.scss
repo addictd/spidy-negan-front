@@ -12,27 +12,32 @@
         justify-content: center;
         align-items    : center;
     }
-
+    .nav-link{
+        padding : 0  1rem;
+    }
     a {
         color: white;
     }
 
     img {
-        height   : 2rem;
+        height: 1.8rem;
     }
-
+    .fa{
+        margin-top : 0;
+    }
     .fa-sign-out {
         font-size: 1.5rem;
-        &:hover{
 
-    color: rgb(217, 217, 217)
+        &:hover {
+
+            color: rgb(217, 217, 217)
         }
     }
 
     .logo,
     .logo-name {
         &:hover {
-            box-shadow: 5px 5px black;
+            // box-shadow: 5px 5px black;
         }
     }
 
@@ -46,18 +51,21 @@
     }
 }
 
-#logo-desc{
-    border-style : none;
-    font-size : 1.2rem;
+#logo-desc {
+    border-style: none;
+    font-size   : 1.2rem;
 }
+
 .logo-blink {
-    animation: blinking 2s infinite;
+    animation                : blinking 2s infinite;
     animation-iteration-count: 1;
 }
-.logo-desc-blink{
-    animation: blinking2 2s infinite;
+
+.logo-desc-blink {
+    animation                : blinking2 2s infinite;
     animation-iteration-count: 1;
 }
+
 @keyframes blinking {
     0% {
         background-color: #37EF50;
@@ -77,12 +85,13 @@
 
 
 @keyframes blinking2 {
-    0%{
-      color: #37EF50;
-      border-bottom   : .05rem solid #37EF50;
+    0% {
+        color        : #37EF50;
+        border-bottom: .05rem solid #37EF50;
     }
-    100%{
-      color: white;
-      border-bottom   : .05rem solid white;
+
+    100% {
+        color        : white;
+        border-bottom: .05rem solid white;
     }
-  }
+}
