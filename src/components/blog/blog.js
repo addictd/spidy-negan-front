@@ -22,71 +22,46 @@ class Blog extends Component {
         const id = _arr[_arr.length - 1].trim();
         const article_arr = articles.filter(item => item.identifier === id);
 
-        console.log('article_arr: ', article_arr);
         if (article_arr.length === 1) {
-
-            this.props.actions.fetchResponses({ id });
-
-            const article = article_arr[0];
-            this.setState(state => {
-                return ({ id, article })
-            });
-
-            const style = article.blog_style;
-            const html = article.blog_html;
-            const response_html = article.blog_response_html;
-
-
-            const blog_body = document.getElementById('blog-body-content');
-            console.log('blog_body: ', blog_body);
-            console.log('html: ', html);
-            // const blog_body_responses = document.getElementById('blog-body-responses');
-
-
-            if (html) {
-                var div = document.createElement("div");
-                div.id = "root";
-                div.innerHTML = html;
-                blog_body.appendChild(div);
-            }
-
-            // if (response_html) {
-            //     var div = document.createElement("div");
-            //     div.className = 'responsesStream js-responsesStreamOther';
-            //     div.innerHTML = response_html;
-            //     blog_body.appendChild(div);
-            // }
-
-
-            if (style) {
-                function addCss(content) {
-                    const style = document.createElement("style");
-                    style.innerHTML = content;
-                    blog_body.appendChild(style);
-                }
-
-                for (let i = 0; i < style.length; i++) {
-                    addCss(style[i]);
-                }
-
-            }
-
-
-
+            this.setState({id, article : article_arr[0] });
+            this.props.actions.fetchHtml({ url: article_arr[0].url });
         }
 
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps.articles.blog_response !== this.props.articles.blog_response) {
+        const blog_body = document.getElementById('blog-body-content');
+        const { blog_html, blog_style, blog_response } = this.props.articles;
 
-            const response_html = this.props.articles.blog_response;
+        if (prevProps.articles.blog_html !== blog_html) {
+            if (blog_html) {
+                var div = document.createElement("div");
+                div.id = "root";
+                div.innerHTML = blog_html
+                blog_body.appendChild(div);
+            }
+            this.props.actions.fetchResponses({ id : this.state.id });
+        }
+
+        if (prevProps.articles.blog_style !== blog_style) {
+            if (blog_style) {
+                function addCss(content) {
+                    const style = document.createElement("style");
+                    style.innerHTML = content;
+                    blog_body.appendChild(style);
+                }
+                addCss(blog_style);
+            }
+        }
+
+
+        if (prevProps.articles.blog_response !== blog_response) {
             const blog_body = document.getElementById('blog-body-responses');
 
-            if (response_html) {
+            if (blog_response) {
                 var div = document.createElement("div");
                 div.className = 'responsesStream js-responsesStreamOther';
-                div.innerHTML = response_html;
+                div.innerHTML = blog_response;
                 blog_body.appendChild(div);
 
                 const link = document.createElement("link");
@@ -97,13 +72,14 @@ class Blog extends Component {
             }
         }
     }
-
+    componentWillUnmount() {
+        this.props.actions.setBlogResponse({ blog_response: "" });
+        this.props.actions.setBlogHtml({ blog_html: "" });
+        this.props.actions.setBlogStyle({ blog_style: "" });
+    }
     render() {
         const { id, article } = this.state;
-        const { blog_response } = this.props.articles;
-        console.log('article : ', article);
-        console.log('state : ', this.state);
-
+        const { blog_response, blog_html } = this.props.articles;
 
         return <div className="blog-wrapper">
 
@@ -112,12 +88,15 @@ class Blog extends Component {
                 <div className='basic-info'>
                     Original Url : <a href={article.url}>{article.url}</a>
                 </div>
+                {
+                    !blog_html ? <Loader /> : <noscript />
+                }
                 <div id="blog-body-content"  >
 
                 </div>
                 <div id="blog-body-responses"  >
                     <div className={blog_response ? "loader hidden" : "loader"}>
-                        Loading &nbsp;&nbsp;<Loader /> &nbsp;&nbsp;Responses
+                        <Loader />
                     </div>
                 </div>
             </div>

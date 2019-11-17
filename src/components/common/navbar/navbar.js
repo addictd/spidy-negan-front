@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './navbar.scss';
 import { Flip, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import logo from '../../../../public/images/logo.png';
+import logo from '../../../../public/images/logo.svg';
 import { ls_get } from '../../services/ls-service';
 import config from '../../../../config';
 

@@ -4,7 +4,7 @@
     flex    : 3;
     overflow: auto;
     padding : 1rem;
-    background-color: rgba(40, 40, 40,.4);
+    background-color: rgba(40, 40, 40,.8);
 
     .card-body {
         padding: .5rem 1rem;
@@ -177,7 +177,9 @@
                 }
 
             }
-
+            .d .no-article{
+                text-align : center;
+            }
             .load-more {
                 text-align   : center;
                 font-weight  : bold;

@@ -52,9 +52,11 @@ class Auth extends Component {
                             placeholder="Password"
                             onChange={this.onChange} />
                     </div>
-                    <button className="btn btn-primary" onClick={this.onSignIn}>Sign In</button>
-                    &nbsp;&nbsp;
-                    <button className="btn btn-primary" onClick={this.onSignUp}>Sign Up</button>
+                    <div className="auth-buttons">
+                        <button className="btn btn-primary" onClick={this.onSignIn}>Sign In</button>
+                        &nbsp;&nbsp;
+                        <button className="btn btn-primary" onClick={this.onSignUp}>Sign Up</button>
+                    </div>
 
                 </div>
             </div>

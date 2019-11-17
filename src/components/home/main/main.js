@@ -85,10 +85,29 @@ class Main extends Component {
 
 
         const articleMap = (item, i) => {
+
+
             if (item.crawl_status === 'wait') return <div className="card" key={item.toString() + i} >
                 <div className="card-body withloader">
                     <div className="loader">
                         <Loader />
+                    </div>
+                </div>
+            </div>;
+
+
+            if (item.crawl_status === 'pending') return <div className="card" key={item.toString() + i} >
+                <div className="card-body withloader">
+                    <div className="loader">
+                         { "<pending>" } {item.headline}
+                    </div>
+                </div>
+            </div>
+
+            if (item.crawl_status === 'crawling') return <div className="card" key={item.toString() + i} >
+                <div className="card-body withloader">
+                    <div className="loader">
+                         { "<crawling>" } {item.headline}
                     </div>
                 </div>
             </div>
@@ -97,7 +116,8 @@ class Main extends Component {
                 <div className="card-body">
                     <p className="center">{"<Fetch fail />"}</p>
                 </div>
-            </div>
+            </div>;
+
             if (show_json === item.identifier) {
 
                 return <div className="card" key={item.toString() + i} >
@@ -114,7 +134,7 @@ class Main extends Component {
 
                     <div className="hero-section">
                         <div className="image">
-                            <img src={item.image[0]} />
+                            <img src={item.image} />
                         </div>
                         <div className="headerText">
                             <div className="heading">
@@ -128,17 +148,17 @@ class Main extends Component {
                                 <span data-identifier={item.identifier} onClick={this.show_json}>&nbsp;&nbsp;<i className="fa fa-expand" aria-hidden="true"></i></span>
                             </div>
                             <div className="meta-details">
-                                <small className="text-muted">Author: {hl(item.author.name)}</small>
+                                <small className="text-muted">Author: {hl(item.author)}</small>
                                 <small className="text-muted">
                                     DatePublished: {(new Date(Date.parse(item.datePublished))).toLocaleDateString()}</small>
-                                <small className="text-muted">Publisher: {hl(item.publisher.name)}</small>
+                                <small className="text-muted">Publisher: {hl(item.publisher)}</small>
                                 <small className="text-muted">Fetch_time: {item.fetch_time / (1000)} sec</small>
                             </div>
                             <div className="hero-details">
                                 <p className="article-description">{hl(item.description)}</p>
                                 <p className='article-tags'>Tags : &nbsp;
 {
-                                        item.keywords.map(tag => <button
+                                        item.keywords.split(',').map(tag => <button
                                             type="button"
                                             className="btn btn-light"
                                             key={tag + i}>
@@ -166,6 +186,14 @@ class Main extends Component {
             }
 
         }
+
+        const noArticle = <div className="card"  >
+            <div className="card-body">
+                <div className="no-article">
+                    Enter keyword and start crawling!
+                </div>
+            </div>
+        </div>;
 
         return <div className="main-wrapper" id="maincrawler">
             <div className="main-body">
@@ -237,7 +265,9 @@ class Main extends Component {
 
                     {
                         !show_filtered
-                            ? articles.map(articleMap)
+                            ? articles.length
+                                ? articles.map(articleMap)
+                                : noArticle
                             : filtered_articles.map(articleMap)
 
                     }

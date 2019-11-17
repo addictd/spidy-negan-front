@@ -7,7 +7,7 @@ const server_url = `${config.SERVER_URL}:${config.SERVER_PORT}`;
 const callAPI = async function(method, url , data={}){
   
     const token = ls_get(config.TOKEN);
-    console.log('token: ', token);
+    // console.log('token: ', token);
 
     const configObj = {};
     configObj.method = method;

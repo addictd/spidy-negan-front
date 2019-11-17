@@ -3,9 +3,9 @@ import * as aT from "../utils/actionTypes";
 const update = (prevState, newState) => ({ ...prevState, ...newState });
 // crawl_status = "success" || "err" || "wait"
 
-const indexOfFirstPending = ({articles }) => {
+const indexOfFirst = ({articles, status }) => {
     for(let i=0 ; i< articles.length; i++){
-        if(articles[i].crawl_status === 'wait' ){
+        if(articles[i].crawl_status === status ){
             return i;
         }
     }
@@ -84,7 +84,7 @@ const dummy = [
 const initialState = {
     input_tag: '',  // look for tag
     available_tags: [], //related tags
-    articles: dummy,    //list of articles
+    articles: [],    //list of articles
     primary_tag: '', //tag for which the current result is being displayed
     filter: {
         word: '',
@@ -96,6 +96,8 @@ const initialState = {
     },
     filtered_articles : [],
     show_filtered : false,
+    blog_html : '',
+    blog_style : '',
     blog_response : ''
 }
 
@@ -106,26 +108,42 @@ const articleReducer = (state = initialState, action) => {
 
         case aT.SET_AVAILABLE_TAGS: return update(state, { available_tags: [...action.data] }); break;
 
-        case aT.SET_PRIMARY_TAG: return update(state, { primary_tag: action.data.tag }); break;
+        case aT.SET_PRIMARY_TAG: return update(state, { primary_tag: action.data }); break;
+
 
         case aT.PUSH_ARTICLE: {
             const newState = Object.assign({}, state);
 
             switch(action.data.crawl_status){
+                case "wait" : {
+                    const new_articles = [...newState.articles, { ...action.data }];
+                    newState.articles = new_articles;
+                }break;
+                case "pending" : {
+                    const index = indexOfFirst({articles : state.articles, status : 'wait' });
+                    const new_articles = [...newState.articles];
+                    const new_article = {...action.data};
+                    new_articles[index] = new_article;
+                    newState.articles = new_articles;
+                }break;
+                case "crawling" : {
+                    const index = action.data.index;
+                    const new_articles = [...newState.articles ];
+                    const new_article = new_articles[index];
+                    new_article.crawl_status = 'crawling';
+                    new_articles[index] = new_article;
+                    newState.articles = new_articles;
+                }break;
                 case "success" : {
-                    const index = indexOfFirstPending({articles : state.articles});
+                    const index = indexOfFirst({articles : state.articles, status : 'crawling'});
                     let new_articles = [...state.articles];
                     new_articles[index] = {...action.data};
                     newState.articles = new_articles;
                 }break;
                 case "err" : {
-                    const index = indexOfFirstPending({articles : state.articles});
+                    const index = indexOfFirstWaiting({articles : state.articles, status : 'crawling'});
                     let new_articles = [...state.articles];
                     new_articles[index] = {...action.data};
-                    newState.articles = new_articles;
-                }break;
-                case "wait" : {
-                    const new_articles = [...newState.articles, { ...action.data }];
                     newState.articles = new_articles;
                 }break;
             }
@@ -145,6 +163,10 @@ const articleReducer = (state = initialState, action) => {
         case aT.SET_SHOW_FILTERED : return update(state, {show_filtered : action.data }); break;
 
         case aT.SET_FILTERED_ARTICLES : return update(state, {filtered_articles : [...action.data]}); break;
+
+        case aT.SET_BLOG_HTML : return update(state, {blog_html : action.data }); break;
+
+        case aT.SET_BLOG_STYLE : return update(state, {blog_style : action.data }); break;
 
         case aT.SET_BLOG_RESPONSE : return update(state, {blog_response : action.data }); break;
         
