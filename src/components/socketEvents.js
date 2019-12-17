@@ -38,6 +38,8 @@ const socketEvents = (socket) => {
     socket.on(aTS.CRAWL_STORY_FAIL, (data) => {
         console.log('[CRAWL_STORY_FAIL]: ' ,data);
         NotifyMe("error", "Unable to crawl story.");
+
+        store.dispatch(articleActions.startCrawling() );
     });
     
 

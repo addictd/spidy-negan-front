@@ -11,6 +11,17 @@ const indexOfFirst = ({articles, status }) => {
     }
     return articles.length;
 }
+
+
+const indexOfArticleId = ({articles, id }) => {
+    for(let i=0 ; i< articles.length; i++){
+        if(articles[i].id === id ){
+            return i;
+        }
+    }
+    return undefined;
+}
+
 const dummy = [
     {
         "@context": "http://schema.org",
@@ -135,7 +146,7 @@ const articleReducer = (state = initialState, action) => {
                     newState.articles = new_articles;
                 }break;
                 case "success" : {
-                    const index = indexOfFirst({articles : state.articles, status : 'crawling'});
+                    const index = indexOfArticleId({articles: state.articles, id : action.data.identifier });
                     let new_articles = [...state.articles];
                     new_articles[index] = {...action.data};
                     newState.articles = new_articles;
