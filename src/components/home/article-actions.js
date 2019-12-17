@@ -4,6 +4,7 @@ import * as aTS from '../utils/actionTypesSocket';
 import config from '../../../config';
 import { ls_get } from "../services/ls-service";
 import * as indexActions from '../index-actions';
+import { NotifyMe } from "../common/notifyMe";
 
 export const onChangeInput = ({ value }) => ({
     type: aT.SET_INPUT_TAGS,
@@ -21,7 +22,9 @@ export const setArticle = ({ articles }) => ({
 
 export const fetchMoreLinks = ({ tag }) => {
     return (dispatch, getState) => {
-        
+        if(!tag){
+            return NotifyMe('warning', "Input tag is empty.")
+        }
         var {articles, primary_tag} = getState().articles;
 
         const more_count = 10;

@@ -3,9 +3,11 @@
     src        : url('../public/fonts/spideraysfonts_the-amazing-spider-man/TheAmazingSpiderMan-MX1w.ttf') format("truetype");
 }
 
-*{
+* {
     font-family: 'Roboto';
 }
+
+
 .form-control:focus {
     box-shadow: 0 0 0 0.05rem rgba(0, 123, 255, .25);
 
@@ -44,6 +46,6 @@
     font-size: .8rem;
 }
 
-.bold{
+.bold {
     font-weight: bold;
 }

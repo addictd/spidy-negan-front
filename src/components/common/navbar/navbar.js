@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './navbar.scss';
 import { Flip, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import logo from '../../../../public/images/logo.svg';
+import logo from '../../../../public/images/spider5.png';
 import { ls_get } from '../../services/ls-service';
 import config from '../../../../config';
 
@@ -28,7 +28,7 @@ class Navbar extends Component {
 
     render() {
         return (
-            <div>
+            <div  className="navbar-container">
                 <div>
                     <ToastContainer
                         position="top-center"
@@ -57,7 +57,7 @@ class Navbar extends Component {
                             </li>
                             <li className="nav-item logo-name" >
                                 <Link className="nav-link" to='/home'>
-                                    <p id="logo-desc" >Spidy - Negan</p>
+                                    <span id="logo-desc" >Spidy - Negan</span>
                                 </Link>
 
                             </li>

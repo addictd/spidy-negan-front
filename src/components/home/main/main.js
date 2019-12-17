@@ -189,15 +189,15 @@ class Main extends Component {
                 <div className="control-wrapper">
                     <div className="control-body">
                         <div className="input-group">
-                            <input
-                                type="text"
-                                className="form-control"
-                                placeholder="Enter tag"
-                                data-type="input_tag"
-                                value={input_tag}
-                                onChange={this.onChange}
-                                onKeyUp={e => { if (e.keyCode === 13) { this.fetchMoreLinks(); } }}
-                            />
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Enter tag"
+                                    data-type="input_tag"
+                                    value={input_tag}
+                                    onChange={this.onChange}
+                                    onKeyUp={e => { if (e.keyCode === 13) { this.fetchMoreLinks(); } }}
+                                />
 
                             <div
                                 onClick={this.fetchMoreLinks}
@@ -227,28 +227,25 @@ class Main extends Component {
                 </div>
             </div>
 
-            {
-                available_tags.length ?
-                    <div className="available-tags-wrapper">
-                        <div className="available-tags-body">
-                            <span>Related Tags: &nbsp; &nbsp;</span>
-                            {
-                                available_tags.map((item, i) => {
-                                    return <button
-                                        type="button"
-                                        className="btn btn-light"
-                                        key={item + i}
-                                        data-primary-tag={item}
-                                        onClick={this.onTagClick}
-                                    >
-                                        <i className="fa fa-search" aria-hidden="true" /> &nbsp; {item}
-                                    </button>
-                                })
-                            }
+            <div className="available-tags-wrapper">
+                <div className="available-tags-body">
+                    <span>Related Tags: &nbsp; &nbsp;</span>
+                    {
+                        available_tags.length && available_tags.map((item, i) => {
+                            return <button
+                                type="button"
+                                className="btn btn-light"
+                                key={item + i}
+                                data-primary-tag={item}
+                                onClick={this.onTagClick}
+                            >
+                                <i className="fa fa-search" aria-hidden="true" /> &nbsp; {item}
+                            </button>
+                        })
+                    }
 
-                        </div>
-                    </div> : <noscript />
-            }
+                </div>
+            </div>
 
             <div className="post-wrapper">
                 <div className="post-body">
